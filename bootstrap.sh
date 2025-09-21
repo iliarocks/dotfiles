@@ -2,6 +2,13 @@
 
 set -ex
 
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+DOTFILES="$HOME/.dotfiles"
+
+mkdir -p "$CONFIG_HOME"
+mkdir -p "$DOTFILES/config"
+mkdir -p "$DOTFILES/home"
+
 for dir in ~/.dotfiles/config/*; do
   name=$(basename "$dir")
   target="$HOME/.config/$name"
