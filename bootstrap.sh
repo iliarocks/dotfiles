@@ -3,7 +3,7 @@
 set -ex
 
 for dir in ~/.dotfiles/config/*; do
-  name=$(baseman "$dir")
+  name=$(basename "$dir")
   target="$HOME/.config/$name"
 
    if [ -e "$target" ] || [ -L "$target" ]; then
