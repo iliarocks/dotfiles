@@ -1,0 +1,9 @@
+[user]
+  name = iliarocks
+  email = parun.ilia@gmail.com
+
+[init]
+  defaultBranch = main
+
+[core]
+  excludesfile = ~/.config/git/ignore
