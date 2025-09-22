@@ -9,28 +9,28 @@ vim.cmd("let g:loaded_python3_provider = 0")
 
 -- language server providers
 vim.lsp.enable({
-	"luals",
-	"tsserver",
-	"tailwind",
+  "luals",
+  "tsserver",
+  "tailwind",
   "bashls",
 })
 
 -- dignostic behaviour
 vim.diagnostic.config({
-	virtual_text = false,
-	severity_sort = true,
-	float = {
-		source = "always",
-		header = "",
-		focusable = false,
-	},
+  virtual_text = false,
+  severity_sort = true,
+  float = {
+    source = "always",
+    header = "",
+    focusable = false,
+  },
 })
 
 -- show diagnostic pop-up on hover
 vim.api.nvim_create_autocmd("CursorHold", {
-	callback = function()
-		vim.diagnostic.open_float()
-	end,
+  callback = function()
+    vim.diagnostic.open_float()
+  end,
 })
 
 -- make diagnostic pop-up faster
