@@ -40,4 +40,4 @@ vim.opt.updatetime = 500
 vim.opt.signcolumn = "yes:1"
 
 -- set colorscheme
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("kanagawa-dragon")

@@ -1,7 +1,5 @@
 return {
-	"catppuccin/nvim",
-	name = "catppuccin",
+  "rebelot/kanagawa.nvim",
 	priority = 1000,
 	lazy = false,
-	opts = { flavour = "mocha" },
 }
