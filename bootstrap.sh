@@ -1,30 +1,70 @@
 #!/usr/bin/env bash
-set -e
 
-CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 DOTFILES="$HOME/.dotfiles"
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-mkdir -p "$CONFIG_HOME" "$DOTFILES/config" "$DOTFILES/home"
+if ! command -v brew &>/dev/null; then
+  echo "please install homebrew first"
+  echo "run /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+  exit 1
+fi
 
-# Link config directories
-for dir in "$DOTFILES/config"/*; do
+link() {
+  local source="$1"
+  local target="$2"
+
+  if [ -e "$target" ]; then
+    echo "$target exists, skipping"
+  else
+    ln -s "$source" "$target"
+    echo "linked $target"
+  fi
+}
+
+echo "Linking dotfiles..."
+
+for dir in "$DOTFILES"/config/*; do
   [ -d "$dir" ] || continue
   name=$(basename "$dir")
-  target="$CONFIG_HOME/$name"
-  [ -e "$target" ] && echo "Skipping $target" || { echo "Linking $target"; ln -s "$dir" "$target"; }
+  link "$dir" "$CONFIG_HOME/$name"
 done
 
-# Link home files
-echo "Processing home files..."
-for file in "$DOTFILES/home"/* "$DOTFILES/home"/.*; do
-  echo "Checking: $file"
-  [ -e "$file" ] || continue
-  name=$(basename "$file")
-  # Skip . and .. directories
-  [ "$name" = "." ] || [ "$name" = ".." ] && continue
-  target="$HOME/$name"
-  echo "Would link: $target -> $file"
-  [ -e "$target" ] && echo "Skipping $target" || { echo "Linking $target"; ln -s "$file" "$target"; }
+shopt -s dotglob
+
+for item in "$DOTFILES"/home/*; do
+  [ -e "$item" ] || continue
+  name=$(basename "$item")
+  link "$item" "$HOME/$name"
 done
 
-echo "Done"
+shopt -u dotglob
+
+echo "Linking done"
+
+echo "Installing developer tools..."
+
+tools=(
+  node
+  bun
+  ripgrep
+  clojure
+)
+
+for tool in "${tools[@]}"; do
+  if brew list "$tool" &>/dev/null; then
+    echo "Skipping $tool"
+  else
+    echo "Installing $tool..."
+    brew install "$tool"
+  fi
+done
+
+echo "Bootstrap complete"
+
+
+
+
+
+
+
+
