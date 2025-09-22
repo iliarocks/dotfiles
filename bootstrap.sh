@@ -1,37 +1,30 @@
 #!/usr/bin/env bash
-
-set -ex
+set -e
 
 CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 DOTFILES="$HOME/.dotfiles"
 
-mkdir -p "$CONFIG_HOME"
-mkdir -p "$DOTFILES/config"
-mkdir -p "$DOTFILES/home"
+mkdir -p "$CONFIG_HOME" "$DOTFILES/config" "$DOTFILES/home"
 
-for dir in ~/.dotfiles/config/*; do
+# Link config directories
+for dir in "$DOTFILES/config"/*; do
+  [ -d "$dir" ] || continue
   name=$(basename "$dir")
-  target="$HOME/.config/$name"
-
-   if [ -e "$target" ] || [ -L "$target" ]; then
-    echo "Skipping $target (already exists)"
-  else
-    echo "Linking $target -> $dir"
-    ln -s "$dir" "$target"              
-   fi
+  target="$CONFIG_HOME/$name"
+  [ -e "$target" ] && echo "Skipping $target" || { echo "Linking $target"; ln -s "$dir" "$target"; }
 done
 
-
-for file in "$HOME/.dotfiles/home/"*; do
+# Link home files
+echo "Processing home files..."
+for file in "$DOTFILES/home"/* "$DOTFILES/home"/.*; do
+  echo "Checking: $file"
+  [ -e "$file" ] || continue
   name=$(basename "$file")
+  # Skip . and .. directories
+  [ "$name" = "." ] || [ "$name" = ".." ] && continue
   target="$HOME/$name"
-
-  if [ -e "$target" ] || [ -L "$target" ]; then
-    echo "Skipping $target (already exists)"
-  else
-    echo "Linking $target -> $file"
-    ln -s "$file" "$target"
-  fi
+  echo "Would link: $target -> $file"
+  [ -e "$target" ] && echo "Skipping $target" || { echo "Linking $target"; ln -s "$file" "$target"; }
 done
 
-echo "Do setting up dotfiles"
+echo "Done"
