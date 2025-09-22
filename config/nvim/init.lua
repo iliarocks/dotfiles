@@ -12,6 +12,7 @@ vim.lsp.enable({
 	"luals",
 	"tsserver",
 	"tailwind",
+  "bashls",
 })
 
 -- dignostic behaviour
