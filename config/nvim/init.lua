@@ -13,7 +13,12 @@ vim.lsp.enable({
   "tsserver",
   "tailwind",
   "bashls",
+  "java",
+  "clangd",
+  "omnisharp",
+  "clojure"
 })
+
 
 -- dignostic behaviour
 vim.diagnostic.config({
@@ -24,13 +29,6 @@ vim.diagnostic.config({
     header = "",
     focusable = false,
   },
-})
-
--- show diagnostic pop-up on hover
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float()
-  end,
 })
 
 -- make diagnostic pop-up faster
