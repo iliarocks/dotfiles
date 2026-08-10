@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "conjure": {
+      "rev": "b7ff6c52b84a555cb57ea0d37b005473d4726a81",
+      "src": "https://github.com/Olical/conjure"
+    }
+  }
+}
