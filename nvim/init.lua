@@ -59,6 +59,8 @@ vim.keymap.set("n", "<leader>gb", "<C-o>", { desc = "Go back" })
 
 -- Language Servers
 
+vim.lsp.on_type_formatting.enable()
+
 local function show_lsp_hover()
   vim.lsp.buf.hover({
     max_width = 80,
